@@ -55,16 +55,37 @@ def favorites_results():
     user_fav_city = request.args.get('city')
     return f"Wow, I didn't know {user_fav_color} {user_fav_animal} lived in {user_fav_city}!"
 
+
+
+
+
 @app.route('/secret_message')
 def secret_message():
     """Shows the user a form to collect a secret message. Sends the result via
     the POST method to keep it a secret!"""
-    pass
+    return """
+    <form action="/message_results" method="POST">
+    
+        Write your secret message!<br/>
+        <input type="text" name="message">
+        <input type="submit" value="Submit!">
+    </form>
+    """
+    
 
 @app.route('/message_results', methods=['POST'])
 def message_results():
+    user_message = request.args.get("message")
+
+    sort = sort_letters( user_message)
+
     """Shows the user their message, with the letters in sorted order."""
-    pass
+    return f"Here is your secret message! {user_message} {sort}"
+
+
+
+
+
 
 @app.route('/calculator')
 def calculator():
@@ -86,8 +107,30 @@ def calculator():
 
 @app.route('/calculator_results')
 def calculator_results():
+    num1 = request.args.get("operand1")
+    operation = request.args.get("operation")
+    num2 = request.args.get("operand2")
+
+    if operation == 'add':
+        result = int(num1) + int(num2)
+        return f"You chose to {operation} {num1} and {num2}. Your result is: {result}"
+    if operation == 'subtract':
+        result = int(num1) - int(num2)
+        return f"You chose to {operation} {num1} and {num2}. Your result is: {result}"
+    if operation == 'multiply':
+        result = int(num1) * int(num2)
+        return f"You chose to {operation} {num1} and {num2}. Your result is: {result}"
+    if operation == 'divide':
+        result = int(num1) / int(num2)
+        return f"You chose to {operation} {num1} and {num2}. Your result is: {result}"
+
+
+
+
+
+    
     """Shows the user the result of their calculation."""
-    pass
+    return f"You chose to {operation} {num1} and {num2}. Your result is: 7"
 
 
 HOROSCOPE_PERSONALITIES = {
